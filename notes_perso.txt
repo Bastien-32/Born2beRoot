@@ -1,0 +1,218 @@
+
+
+Dans le terminal récupérer le fichier signature
+Dans le GitHub école
+Via le fichier de la VM
+~/VirtualBox VMs/ ou aller a la racine de la VM
+sha1sum <nom_fichier.vdi>
+Comparer si les 2 contenus sont identiques
+ 
+
+Ouvrir virtual box et cloner B2BR
+Laisser cocher clone intégral
+
+
+virtual box = 
+logiciel de virtualisation open-source développé par Oracle. Il permet de créer
+ et gérer des machines virtuelles (VM) sur un ordinateur physique, appelé hôte.
+ Une machine virtuelle est une simulation logicielle qui fonctionne comme un 
+ véritable ordinateur, permettant d'exécuter des systèmes d'exploitation (OS) 
+ distincts de celui installé sur l'hôte. 
+
+Systèmes d'exploitation Linux
+*******************************************************************************
+
+Debian = 
+distribution Linux libre et universelle, utilisable sur une grande variété 
+ d'appareils et adaptable à de nombreux usages (serveurs, desktops, IoT).
+Gestionnaire de paquets : Utilise dpkg avec apt (Advanced Package Tool) pour 
+ installer et gérer les paquets.
+
+Rocky = 
+Basé sur RHEL : Rocky Linux est une distribution "rebuild" de RHEL. 
+ Elle reprend les sources libres de RHEL pour en faire une distribution 
+ gratuite.
+Gestionnaire de paquets : Utilise RPM (Red Hat Package Manager) avec dnf comme
+ gestionnaire de paquets.
+
+
+Red Hat Enterprise Linux (RHEL) = (payant)
+Distribution Linux développée par Red Hat, une filiale d'IBM. Elle est 
+ spécialement conçue pour répondre aux besoins des entreprises et des 
+ environnements professionnels, avec un accent sur la stabilité, la sécurité, 
+ et le support technique.
+
+*******************************************************************************
+
+
+Aptitude est un gestionnaire de paquets de haut niveau, tandis que APT est de plus bas niveau et peut être utilisé par d’autres gestionnaires de paquets de plus haut niveau.
+Aptitude est plus intelligent et supprimera automatiquement les paquets inutilisés ou suggérera l’installation des paquets dépendants.
+APT exécutera uniquement ce qu’on lui indique explicitement dans la ligne de commande.
+système de sécurité Linux qui fournit un contrôle d’accès obligatoire (Mandatory Access Control - MAC). Il permet à l’administrateur système de restreindre les actions que les processus peuvent effectuer. Il est inclus par défaut dans Debian. 
+
+outils de securisation
+*******************************************************************************
+
+Selinux (Security-Enhanced Linux)=
+Conçu pour limiter les dommages causés par des vulnérabilités ou des intrusions
+ en contrôlant ce que chaque processus ou utilisateur peut faire sur un 
+ système. Contrairement au contrôle d'accès classique basé sur les permissions 
+ (DAC, Discretionary Access Control), où les utilisateurs peuvent changer les 
+ permissions des fichiers qu'ils possèdent, SELinux impose des politiques 
+ rigoureuses définies par l'administrateur ou le système.
+
+AppArmor = 
+Module de sécurité pour Linux qui fournit un système de contrôle d'accès 
+ obligatoire (MAC, Mandatory Access Control). Il limite les capacités des 
+ applications ou processus en fonction de politiques définies par 
+ l'administrateur, renforçant ainsi la sécurité du système.
+AppArmor est un outil efficace et relativement simple pour renforcer la
+ sécurité des applications sous Linux. Bien qu'il soit moins complexe que 
+ SELinux, il est suffisamment robuste pour protéger des environnements courants
+ comme les serveurs web ou les systèmes multi-utilisateurs. Son intégration 
+ dans Ubuntu en fait une solution idéale pour les administrateurs qui cherchent
+ une sécurité renforcée sans complexité excessive.
+
+*******************************************************************************
+
+
+
+Pas d’environnement graphique car on travaille directement dans le terminal
+Montrer qu'on travaille sur débian : uname -a
+Statut ufw : sudo ufw status
+Statut ssh : sudo systemctl status ssh
+Montrer que mon login est bien ajouté aux groupes
+getent group <nom du groupe>
+
+
+Mot de passe configuration
+Montrer les routines des mdp : sudo chage -l <nom_utilisateur>
+aller a la racine
+Entrer dans l’editeur de config des mdp : sudo nano /etc/login.defs aller a la racine fair cd etc puis nano login.defs 
+Règles mdp : sudo nano /etc/pam.d/common-password
+	ou voir dans sudo nano etc/security/nanopwquality.conf
+Creation de mot de passes robustes Plus complexe à décrypter et les routines en jours permettent d’eviter que hackers ayant récupérer un mot de passe qui a fuité  ne puissent pas se connecter au-delà des 30 jours. La limite deux jours permet de ne pas effectuer plusieurs tentatives de réinitialisation de  mots de passe.
+
+
+Ajout d’un nouvel utlisateur
+ajouter un profil : sudo adduser <new_username>
+Ajouter un groupe : sudo groupadd <new_group> 
+Ajouter un profil à un groupe :  sudo usermod -aG <name_group> <new_username>
+Voir les profil contenus dans un groupe : getent group <name_group>
+
+
+Hostname 
+Montrer que c’est mon login en hostname :  hostnamectl
+Modifier le hostname : sudo hostnamectl set-hostname <new_hostname>
+Rebooter la VM  : sudo reboot
+re-modifier et remettre mon hostname
+
+
+
+Partitions
+Afficher les partitions : lsblk
+
+LVM (Logical Volume Manager) =
+outil de gestion des volumes logiques sous Linux. 
+Contrairement à la gestion classique des partitions, 
+permet une gestion flexible et dynamique de l’espace disque. 
+Cela inclut la création, la redimension des partitions (volumes), 
+et l’allocation de l’espace disque sans devoir redémarrer ou perturber le système
+
+LVM  (Logical Volume Manager)=
+Système de gestion des volumes logiques sur Linux. Il offre une abstraction
+ entre les périphériques de stockage physiques (disques durs, partitions) et 
+ les volumes logiques utilisés par le système d'exploitation pour les fichiers 
+ et répertoires. Cela permet une gestion plus flexible et dynamique de 
+ l'espace de stockage.
+
+Sudo 
+Presence sudo : dpkg -l | grep sudo
+Ajouter un utilisateur au groupe sudo : sudo usermod -aG sudo <new_username> 
+Regles sudo : sudo visudo
+(requiretty : exige sur vm commande sudo depuis un terminal pour empecher des executions sans interaction utilisateur)
+Historiques des commandes sudo : 
+Chemin du dossier : cd /var/log/sudo
+Montrer l’historique des dernières actions passées : tail /var/log/sudo/sudo.log
+Relancer une commande sudo et montrer qu’elle a été ajoutée a l’historique
+
+
+UFW (fire Wall)
+Montrer qu’il est bien installé : sudo ufw status numbered
+Expliquer UFW :
+Interfaces pour gérer les pare-feu permet de protéger le programme vis-à-vis 
+des utilisateurs extérieurs en restreignant les Utilisateurs  qui peuvent se connecter à la VM.
+Ouvrir un nouveau port : sudo ufw allow 8080
+Verifier qu’il a bien été ouvert :  sudo ufw status numbered
+Supprimer le port : sudo ufw delete allow 8080
+Montrer les statuts des ports : sudo service ssh status
+
+
+SSH
+Expliquer SSH : 
+Protocole réseau crypté qui permet une communication sécurisée entre deux 
+ ordinateurs. Il est couramment utilisé pour administrer et gérer des serveurs 
+ à distance.
+Ouvrir un terminal 
+Voir si le nouvel utilisateur peut se connecter :  ssh new_user@127.0.0.1 -p 11111
+Exit
+Voir si on peut se connecter en tant que root :  ssh root@127.0.0.1 -p 11111
+-> permission denied
+
+Exit
+ 
+
+Script monitoring (cron)
+
+
+
+Expliquer cron
+Outils qui permet d'automatiser l'exécution de tâches répétitives à des moments précis ou selon une fréquence définie
+Modifier la tempo : sudo crontab -e
+(
+	Expliquer le script :
+	Se placer dans la partition root : sudo -i
+	aller dans le repertoire cd /usr/local/bin
+	ouvrir  : nano monitoring.sh
+)
+Relancer la VM  : sudo reboot
+Remodifier la tempo à 10 minutes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Install sudo 
+============
+su - 
+
+
+
+group
+verif user group
+
+uname -a  
+	->  montrer qu'on bosse sur debian
+
+sudo systemcpt status ufw 
+	-> voir si ufw est bien installe et en cours d'utilisation 
+
+sudo systemcpt status ssh
+	-> voir si ssh est bien installe et en cours d'utilisation
+
+sudo -i 
+	-> rentrer dans la parttion root directement
